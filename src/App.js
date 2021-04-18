@@ -7,6 +7,8 @@ import { ContactList } from "./components/ContactList";
 import { Filter } from "./components/Filter";
 import { CSSTransition } from "react-transition-group";
 import Logo from "./components/Logo/Logo";
+import { connect } from "react-redux";
+import actions from "./redux/actions";
 
 class App extends Component {
   state = {
@@ -100,4 +102,14 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default App;
+
+const mapStateToProps = (state) => ({
+  value: state.contacts.filter,
+});
+
+const mapDispatchToProps = {
+  toFilter: actions.handleFilter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

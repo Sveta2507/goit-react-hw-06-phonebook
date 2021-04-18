@@ -20,11 +20,12 @@ const Filter = ({ onChange, value }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  value: state.contacts.filter,
-});
+// const mapStateToProps = (state) => ({
+//   value: state.contacts.filter,
+// });
 
-const mapDispatchToProps = {
-  toFilter: actions.handleFilter,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+// const mapDispatchToProps = {
+//   toFilter: actions.handleFilter,
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;

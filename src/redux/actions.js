@@ -13,7 +13,7 @@ const addContacts = createAction("contact/add", (name, number) => {
   };
 });
 
-const handleDelete = createAction("contact/del");
+const handleDelete = createAction("contact/delete");
 
 const handleFilter = createAction("contact/filter", (filter) => ({
   payload: { filter },
