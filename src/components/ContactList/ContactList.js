@@ -3,13 +3,13 @@ import { ContactlistItem } from "../ContactListItem";
 import PropTypes from "prop-types";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styles from "./ContactList.module.scss";
+import { connect } from "react-redux";
+import actions from "../../redux/actions";
 
-
-const Contactlist = ({ contacts, deleteContact }) => {
+const Contactlist = ({ contacts }) => {
   return (
     <TransitionGroup component="ul" className={styles.contactsUl}>
       {contacts.map((item) => {
-        // console.log(item);
         const { name, id, number } = item;
         return (
           <CSSTransition
@@ -18,12 +18,7 @@ const Contactlist = ({ contacts, deleteContact }) => {
             classNames={styles}
             in={contacts.length > 0}
           >
-            <ContactlistItem
-              name={name}
-              number={number}
-              id={id}
-              deleteContact={deleteContact}
-            />
+            <ContactlistItem name={name} number={number} id={id} />
           </CSSTransition>
         );
       })}
@@ -39,4 +34,21 @@ Contactlist.propTypes = {
   ),
 };
 
-export default Contactlist;
+const mapStateToProps = (state) => {
+  const {
+    contacts: { items, filter },
+  } = state;
+  const filteredNames = items.filter((contact) => {
+    return contact.name.toLowerCase().includes(filter.toLowerCase());
+  });
+
+  return {
+    contacts: filteredNames,
+  };
+};
+
+const mapDispatchToProps = {
+  deleteContact: actions.addContacts,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contactlist);

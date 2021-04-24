@@ -2,31 +2,29 @@ import { combineReducers } from "redux";
 import { createReducer } from "@reduxjs/toolkit";
 import contactsActions from "./actions.js";
 
-const toAddContact = (state, action) => {
-  const doubleName = state.find(
-    (el) => el.name === action.payload.contact.name
-  );
-  if (doubleName) {
-    alert(`${action.payload.contact.name} has already been added`);
-    return;
-  }
-  return [...state, action.payload.contact];
+const addContact = (state, action) => {
+  const contacts = [...state, action.payload];
+  localStorage.setItem("contacts", JSON.stringify(contacts));
+  return contacts;
 };
 
-const toDeleteContact = (state, action) =>
+const deleteContact = (state, action) =>
   state.filter((contact) => contact.id !== action.payload);
 
-const items = createReducer([], {
-  [contactsActions.postContacts]: (state, action) =>
-    localStorage.getItem("contacts")
-      ? JSON.parse(localStorage.getItem("contacts"))
-      : state,
-  [contactsActions.addContacts]: toAddContact,
-  [contactsActions.handleDelete]: toDeleteContact,
+const state = [
+  { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+  { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+  { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+  { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+];
+
+const items = createReducer(state, {
+  [contactsActions.handleDelete]: deleteContact,
+  [contactsActions.addContact]: addContact,
 });
 
 const filter = createReducer("", {
-  [contactsActions.handleFilter]: (state, action) => action.payload.filter,
+  [contactsActions.handleFilter]: (_, action) => action.payload,
 });
 
 export default combineReducers({ items, filter });

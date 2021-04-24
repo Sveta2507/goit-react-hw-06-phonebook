@@ -25,18 +25,11 @@ const ContactlistItem = ({ id, number, name, deleteContact }) => {
 ContactlistItem.propTypes = {
   number: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const filteredNames = state.contacts.items.filter((contact) =>
-    contact.name.toLowerCase().includes(state.contacts.filter.toLowerCase())
-  );
-  return {
-    contacts: filteredNames,
-  };
-};
 const mapDispatchToProps = {
-  onDelete: actions.handleDelete,
-  toPostContacts: actions.postContacts,
+  deleteContact: actions.handleDelete,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ContactlistItem);
+export default connect(null, mapDispatchToProps)(ContactlistItem);
